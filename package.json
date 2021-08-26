@@ -1,0 +1,22 @@
+{
+  "name": "task-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeltaYoursol/Task-react.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Tatiana Selezneva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeltaYoursol/Task-react/issues"
+  },
+  "homepage": "https://github.com/SeltaYoursol/Task-react#readme"
+}
