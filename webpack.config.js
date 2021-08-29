@@ -1,4 +1,5 @@
-const path = require("path")
+const path = require("path");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = (env) => {
     const modules = {
@@ -11,34 +12,34 @@ module.exports = (env) => {
                 },
             ],
         },
-        stylus: {
-            test: /\.css$/,
+        scss: {
+            test: /\.s[ac]ss$/i,
             use: [
-                {
-                    loader: "style-loader",
-                },
-                {
-                    loader: "css-loader",
-                },
-            
+                // Creates `style` nodes from JS strings
+                "style-loader",
+                // Translates CSS into CommonJS
+                "css-loader",
+                // Compiles Sass to CSS
+                "sass-loader",
             ],
         },
-    }
+    };
 
-    if (env === 'production') {
-        modules.stylus.use.splice(2, 0, { loader: "postcss-loader" })
+    if (env === "production") {
+        modules.stylus.use.splice(2, 0, { loader: "postcss-loader" });
     }
 
     const resolve = {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
-        alias: { // Тут тот же момент, что и в tsconfig.json, чтобы Webpack смог понять ссылки на директории
-            App: path.resolve(__dirname, 'src/App/'),
-            Pages: path.resolve(__dirname, 'src/Pages/'),
+        alias: {
+            // Тут тот же момент, что и в tsconfig.json, чтобы Webpack смог понять ссылки на директории
+            App: path.resolve(__dirname, "src/App/"),
+            Pages: path.resolve(__dirname, "src/Pages/"),
         },
-    }
+    };
 
     return {
         modules,
         resolve,
-    }
-}
+    };
+};

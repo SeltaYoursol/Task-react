@@ -1,4 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from 'App'
+import './Common/scss/base.scss'
 
-ReactDOM.render(<h1>Woohoo!</h1>, document.getElementById('root'))
+
+
+ReactDOM.render(<App></App>, document.getElementById('root'))
