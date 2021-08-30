@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Detail from "Pages/Detail/Detail";
 import Main from "Pages/Main/Main";
 import axios from "axios";
+
 interface FilmItem {
     [key: string]: string | number | Array<string>;
 }
@@ -12,7 +13,6 @@ interface FilmList {
 }
 
 function App() {
-   
     const [appData, setData] = useState<FilmList | null>();
     useEffect(() => {
         const fetchData = async (): Promise<any> => {
@@ -24,7 +24,7 @@ function App() {
 
         fetchData();
     }, []);
-    console.log(appData);
+    console.log();
     return (
         <Router>
             <div>
@@ -32,6 +32,7 @@ function App() {
                     <ul>
                         <li>
                             <Link to="/">Home</Link>
+                            
                         </li>
                         <li>
                             <Link to="/detail">About</Link>
@@ -43,7 +44,7 @@ function App() {
                         <Main />
                     </Route>
                     <Route path="/detail">
-                        <Detail data={appData} />
+                        <Detail data={appData.data} />
                     </Route>
                 </Switch>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import FilmCard from "../../Components/FilmCard/FilmCard";
 interface FilmItem {
     [key: string]: string | number | Array<string>;
@@ -8,12 +8,10 @@ interface FilmList {
     data: Array<{ [index: number]: FilmItem }>;
 }
 
-const Detail = ({ data }: FilmList) => {
-    console.log(data);
+const Detail: FC<FilmList> = ({ data }) => {
     return (
         <div className="detail">
             <div className="detail-card">
-                {data}
                 <div className="detail-card__poster"></div>
                 <div className="detail-card-description">
                     <div className="description__title"></div>
