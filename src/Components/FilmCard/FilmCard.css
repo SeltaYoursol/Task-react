@@ -1,9 +1,9 @@
-.film-card{
+.film-card {
     width: 300px;
     height: 500px;
-
+    cursor: pointer;
 }
-.film-card__img{
+.film-card__img {
     width: 100%;
     height: 400px;
 }
@@ -13,15 +13,35 @@
     object-fit: cover;
 }
 
-.film-card-description{
+.film-card-description {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    height: 100px;
+    min-height: 50px;
     padding: 10px 0;
     font: 1em sans-serif;
-
+    justify-content: space-between;
+    align-items: flex-start;
 }
-.film-card-description__title{
+.film-card-description__title {
     width: 60%;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+.film-card-description__year {
+    font-size: 0.9em;
+    display: inline-block;
+    padding: 5px;
+    height: auto;
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+.film-card-description__genre {
+    text-transform: lowercase;
+    font-size: 0.8em;
 }

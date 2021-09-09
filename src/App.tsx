@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Detail from "Pages/Detail/Detail";
-import Main from "Pages/Main/Main";
+import Home from "Pages/Home/Home";
 import axios from "axios";
+import Loader from "../src/Components/Loader/Loader";
+import Header from "./Components/Header/Header";
 
 interface FilmItem {
     budjet: number;
     genres: Array<string>;
     id: number;
     overview: string;
-    title:string;
+    title: string;
     poster_path: string;
     release_date: string;
     revenue: number;
@@ -20,41 +21,66 @@ interface FilmItem {
 }
 
 function App() {
-    let id: number;
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const [currentFilmId, setCurrentFilmId] = useState<number>();
     const [appData, setData] = useState<FilmItem[]>([]);
+    const [film, setFilmData] = useState<FilmItem>();
+    const [detailState, setDetailState] = useState<boolean>(false);
+    const getFilm = async (): Promise<any> => {
+        setLoading(true);
+        try {
+            const response = await axios(
+                `https://reactjs-cdp.herokuapp.com/movies/${currentFilmId}`
+            );
+            setFilmData(response.data.data);
+            console.log(response);
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+        } catch (e) {
+            console.error(e.message);
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+        }
+    };
+    const openDetail: React.MouseEventHandler<HTMLDivElement> = (e) => {
+        setCurrentFilmId(337167);
+        setDetailState(true);
+        getFilm();
+    };
     useEffect(() => {
         const getAllFilms = async (): Promise<any> => {
-            const result = await axios(
-                "https://reactjs-cdp.herokuapp.com/movies"
-            );
-            setData(result.data.data);
-            id = result.data.data[0].id;
+            try {
+                const result = await axios(
+                    "https://reactjs-cdp.herokuapp.com/movies"
+                );
+                if (result) {
+                    setData(result.data.data);
+                    setCurrentFilmId(result.data.data[0].id);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 2000);
+                }
+            } catch (e) {
+                setLoading(false);
+                console.error(e);
+            }
         };
-
         getAllFilms();
     }, []);
 
     return (
-        <Router>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/detail">About</Link>
-                    </li>
-                </ul>
-            </nav>
-            <Switch>
-                <Route path="/">
-                    <Main data={...appData} />
-                </Route>
-                <Route path="/detail">
-                    <Detail id={id} filmList={...appData} />
-                </Route>
-            </Switch>
-        </Router>
+        <div>
+            <Header />
+            {isLoading && <Loader />}
+            {!isLoading &&
+                (detailState ? (
+                    <Detail film={film} filmList={...appData} />
+                ) : (
+                    <Home data={...appData} openDetail={openDetail} />
+                ))}
+        </div>
     );
 }
 export default App;

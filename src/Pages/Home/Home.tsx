@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import FilmCard from "../../Components/FilmCard/FilmCard";
+// import { BrowserRouter as  Link } from "react-router-dom";
 
 interface FilmItem {
     budjet: number;
     genres: Array<string>;
-    title:string;
+    title: string;
     id: number;
     overview: string;
     poster_path: string;
@@ -17,11 +18,12 @@ interface FilmItem {
 }
 interface Props {
     data: FilmItem[];
+    openDetail: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const Main: FC<Props> = ({ data }) => {
+const Main: FC<Props> = ({ data, openDetail }) => {
     const filmsItems = data.map((film) => (
-        <FilmCard film={film} key={film.id} />
+        <FilmCard film={film} key={film.id} openDetail={openDetail} />
     ));
     return (
         <div className="main">
