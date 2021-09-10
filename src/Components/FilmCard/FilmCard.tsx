@@ -15,15 +15,15 @@ interface FilmItem {
 }
 interface Props {
     film: FilmItem;
-    openDetail:React.MouseEventHandler<HTMLDivElement>;
+    openDetail: (id: number) => void;
 }
 
 const FilmCard: FC<Props> = ({ film, openDetail }) => {
     return (
-        <div className="film-card"  onClick={openDetail} data-id="film.id">
+        <div className="film-card"  onClick={()=>openDetail(film.id)}>
             <div className="film-card__img"><img src={film.poster_path} alt={film.tagline} /></div>
             <div className="film-card-description">
-                <div className="film-card-description__title">{film.title}</div>
+                <div className="film-card-description__title">{film.title}{film.id}</div>
                 <span className="film-card-description__year">{film.release_date.slice(0,4)}</span>
                 <div className="film-card-description__genre">{film.genres.join(', ')}</div>
             </div>

@@ -18,7 +18,7 @@ interface FilmItem {
 }
 interface Props {
     data: FilmItem[];
-    openDetail: React.MouseEventHandler<HTMLDivElement>;
+    openDetail: (id: number) => void;
 }
 
 const Main: FC<Props> = ({ data, openDetail }) => {

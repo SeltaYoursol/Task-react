@@ -22,36 +22,34 @@ interface FilmItem {
 
 function App() {
     const [isLoading, setLoading] = useState<boolean>(true);
-    const [currentFilmId, setCurrentFilmId] = useState<number>();
     const [empryResult, setEmptyResult] = useState<boolean>(false);
     const [filmList, setFilmList] = useState<FilmItem[]>([]);
     const [film, setFilmData] = useState<FilmItem>();
     const [detailState, setDetailState] = useState<boolean>(false);
     const [currentSearchFilter, setCurrentSearchFilter] =
         useState<string>("title");
-    const getFilm = async (): Promise<any> => {
+    const getFilm = (id: number) => {
         setLoading(true);
-        try {
-            const response = await axios(
-                `https://reactjs-cdp.herokuapp.com/movies/${currentFilmId}`
-            );
-            setFilmData(response.data.data);
-            setTimeout(() => {
-                setLoading(false);
-                setDetailState(true);
-                setEmptyResult(false);
-            }, 2000);
-        } catch (e) {
-            console.error(e.message);
-            setTimeout(() => {
-                setLoading(false);
-                setEmptyResult(true);
-            }, 2000);
-        }
+
+        axios(`https://reactjs-cdp.herokuapp.com/movies/${id}`)
+            .then((response) => {
+                setFilmData(response.data);
+                setTimeout(() => {
+                    setLoading(false);
+                    setDetailState(true);
+                    setEmptyResult(false);
+                }, 2000);
+            })
+            .catch((err) => {
+                console.error(err.message);
+                setTimeout(() => {
+                    setLoading(false);
+                    setEmptyResult(true);
+                }, 2000);
+            });
     };
-    const openDetail: React.MouseEventHandler<HTMLDivElement> = async (e) => {
-        setCurrentFilmId(337167);
-        await getFilm();
+    const openDetail = (id: number) => {
+        getFilm(id);
     };
 
     const changeFilter = (currentFilter: string): void => {
@@ -67,7 +65,6 @@ function App() {
         if (!filter) {
             filter = "title";
         }
-        console.log(filter);
         switch (filter) {
             case "genre":
                 result = filmList.filter((item) => {
@@ -75,7 +72,7 @@ function App() {
                 });
                 break;
             case "title":
-                let re = new RegExp(query);
+                let re = new RegExp(query, "gi");
                 console.log(re);
                 result = filmList.filter((item) => {
                     item.title.search(re);
@@ -95,7 +92,6 @@ function App() {
                 );
                 if (result) {
                     setFilmList(result.data.data);
-                    setCurrentFilmId(result.data.data[0].id);
                     setTimeout(() => {
                         setLoading(false);
                     }, 2000);
@@ -115,7 +111,11 @@ function App() {
             {isLoading && <Loader />}
             {!isLoading &&
                 (detailState ? (
-                    <Detail film={film} filmList={...filmList} />
+                    <Detail
+                        film={film}
+                        filmList={...filmList}
+                        openDetail={openDetail}
+                    />
                 ) : (
                     <Home data={...filmList} openDetail={openDetail} />
                 ))}
