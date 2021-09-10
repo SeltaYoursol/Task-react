@@ -10,6 +10,7 @@ interface Props {
 const Search: FC<Props> = ({ searchHandler, changeFilter }) => {
     const [currentSearchQuery, setCurrentSearchQuery] = useState<string>("");
     const [currentFilter, setCurrentFilter] = useState<string>("");
+    const [showSeacrhField, setShowSearchField] = useState<boolean>(false);
 
     useEffect(() => {
         changeFilter(currentFilter);
@@ -17,55 +18,66 @@ const Search: FC<Props> = ({ searchHandler, changeFilter }) => {
 
     return (
         <div className="search">
-            <button className="search-btn btn-white">Search</button>
-            <div className="search-field">
-                <div className="search-form">
-                    <label htmlFor="search-field">Find your movie</label>
-                    <input
-                        type="search"
-                        id="seach-field"
-                        value={currentSearchQuery}
-                        onChange={(e) => setCurrentSearchQuery(e.target.value)}
-                    />
-                </div>
-                <div className="search-filters">
-                    <span>search by</span>
-                    <div className="search-filters__list">
-                        <div className="search-filters__item">
-                            <label htmlFor="title-filter">Title</label>
-                            <input
-                                type="radio"
-                                name="search-filters"
-                                className="search-filters__item"
-                                value="title"
-                                onChange={(e) =>
-                                    setCurrentFilter(e.target.value)
-                                }
-                                id="title-filter"
-                            />
-                        </div>
-                        <div className="search-filters__item">
-                            <label htmlFor="genre-filter">Genre</label>
-                            <input
-                                type="radio"
-                                name="search-filters"
-                                value="genre"
-                                className="search-filters__item"
-                                onChange={(e) =>
-                                    setCurrentFilter(e.target.value)
-                                }
-                                id="genre-filter"
-                            />
+            {!showSeacrhField && (
+                <button
+                    className="search-btn btn-white"
+                    onClick={() => setShowSearchField(true)}
+                >
+                    Search
+                </button>
+            )}
+            {showSeacrhField && (
+                <div className="search-field">
+                    <div className="search-form">
+                        <label htmlFor="search-field">Find your movie</label>
+                        <input
+                            type="search"
+                            id="seach-field"
+                            value={currentSearchQuery}
+                            onChange={(e) =>
+                                setCurrentSearchQuery(e.target.value)
+                            }
+                        />
+                    </div>
+                    <div className="search-filters">
+                        <span>search by</span>
+                        <div className="search-filters__list">
+                            <div className="search-filters__item">
+                                <label htmlFor="title-filter">Title</label>
+                                <input
+                                    type="radio"
+                                    name="search-filters"
+                                    className="search-filters__item"
+                                    value="title"
+                                    onChange={(e) =>
+                                        setCurrentFilter(e.target.value)
+                                    }
+                                    id="title-filter"
+                                />
+                            </div>
+                            <div className="search-filters__item">
+                                <label htmlFor="genre-filter">Genre</label>
+                                <input
+                                    type="radio"
+                                    name="search-filters"
+                                    value="genre"
+                                    className="search-filters__item"
+                                    onChange={(e) =>
+                                        setCurrentFilter(e.target.value)
+                                    }
+                                    id="genre-filter"
+                                />
+                            </div>
                         </div>
                     </div>
+                    <button
+                        onClick={() => searchHandler(this, currentSearchQuery)}
+                        className="search-btn btn-red"
+                    >
+                        search
+                    </button>
                 </div>
-                <button
-                    onClick={() => searchHandler(this, currentSearchQuery)}
-                    className="search-btn btn-red"
-                >
-                    search
-                </button>
-            </div>
+            )}
         </div>
     );
 };
