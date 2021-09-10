@@ -1,15 +1,21 @@
 import React, { FC } from "react";
 import Search from "../Search/Search";
 
-const Header: FC = () => {
-    const searhHandler = (e: React.MouseEvent, title: string) => {
-        console.log(e, title);
-     };
+interface Props {
+    searchHandler: (
+        e: React.MouseEvent<HTMLButtonElement>,
+        title: string
+    ) => void;
+    changeFilter: (currentFilter: string) => void;
+}
+
+const Header: FC<Props> = ({changeFilter,searchHandler}) => {
+   
 
     return (
         <div>
             <div className="logo"></div>
-            <Search searchHandle={searhHandler} />
+            <Search searchHandler={searchHandler} changeFilter={changeFilter} />
         </div>
     );
 };

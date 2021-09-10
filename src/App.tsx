@@ -23,9 +23,12 @@ interface FilmItem {
 function App() {
     const [isLoading, setLoading] = useState<boolean>(true);
     const [currentFilmId, setCurrentFilmId] = useState<number>();
-    const [appData, setData] = useState<FilmItem[]>([]);
+    const [empryResult, setEmptyResult] = useState<boolean>(false);
+    const [filmList, setFilmList] = useState<FilmItem[]>([]);
     const [film, setFilmData] = useState<FilmItem>();
     const [detailState, setDetailState] = useState<boolean>(false);
+    const [currentSearchFilter, setCurrentSearchFilter] =
+        useState<string>("title");
     const getFilm = async (): Promise<any> => {
         setLoading(true);
         try {
@@ -33,22 +36,57 @@ function App() {
                 `https://reactjs-cdp.herokuapp.com/movies/${currentFilmId}`
             );
             setFilmData(response.data.data);
-            console.log(response);
             setTimeout(() => {
                 setLoading(false);
+                setDetailState(true);
+                setEmptyResult(false);
             }, 2000);
         } catch (e) {
             console.error(e.message);
             setTimeout(() => {
                 setLoading(false);
+                setEmptyResult(true);
             }, 2000);
         }
     };
-    const openDetail: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const openDetail: React.MouseEventHandler<HTMLDivElement> = async (e) => {
         setCurrentFilmId(337167);
-        setDetailState(true);
-        getFilm();
+        await getFilm();
     };
+
+    const changeFilter = (currentFilter: string): void => {
+        setCurrentSearchFilter(currentFilter);
+    };
+
+    const searhHandler = (e: React.MouseEvent, title: string) => {
+        filmSearch(currentSearchFilter, title);
+    };
+
+    const filmSearch = (filter: string, query: string): FilmItem[] => {
+        let result: FilmItem[];
+        if (!filter) {
+            filter = "title";
+        }
+        console.log(filter);
+        switch (filter) {
+            case "genre":
+                result = filmList.filter((item) => {
+                    item.genres.includes(query);
+                });
+                break;
+            case "title":
+                let re = new RegExp(query);
+                console.log(re);
+                result = filmList.filter((item) => {
+                    item.title.search(re);
+                });
+                break;
+        }
+        return result;
+    };
+
+    useEffect(() => {}, [currentSearchFilter]);
+
     useEffect(() => {
         const getAllFilms = async (): Promise<any> => {
             try {
@@ -56,7 +94,7 @@ function App() {
                     "https://reactjs-cdp.herokuapp.com/movies"
                 );
                 if (result) {
-                    setData(result.data.data);
+                    setFilmList(result.data.data);
                     setCurrentFilmId(result.data.data[0].id);
                     setTimeout(() => {
                         setLoading(false);
@@ -72,13 +110,14 @@ function App() {
 
     return (
         <div>
-            <Header />
+            <Header searchHandler={searhHandler} changeFilter={changeFilter} />
+            {empryResult && <div>No films found</div>}
             {isLoading && <Loader />}
             {!isLoading &&
                 (detailState ? (
-                    <Detail film={film} filmList={...appData} />
+                    <Detail film={film} filmList={...filmList} />
                 ) : (
-                    <Home data={...appData} openDetail={openDetail} />
+                    <Home data={...filmList} openDetail={openDetail} />
                 ))}
         </div>
     );

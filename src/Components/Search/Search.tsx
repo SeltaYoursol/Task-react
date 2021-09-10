@@ -1,12 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 interface Props {
-    searchHandle: (e:  React.MouseEvent<HTMLButtonElement>, title: string) => void;
+    searchHandler: (
+        e: React.MouseEvent<HTMLButtonElement>,
+        title: string
+    ) => void;
+    changeFilter: (currentFilter: string) => void;
 }
 
-const Search: FC<Props> = ({ searchHandle }) => {
-    const changeFilters = (event: any) => {
-        console.log(event.target.checked);
-    };
+const Search: FC<Props> = ({ searchHandler, changeFilter }) => {
+    const [currentSearchQuery, setCurrentSearchQuery] = useState<string>("");
+    const [currentFilter, setCurrentFilter] = useState<string>("");
+
+    useEffect(() => {
+        changeFilter(currentFilter);
+    }, [currentFilter]);
 
     return (
         <div className="search">
@@ -14,7 +21,12 @@ const Search: FC<Props> = ({ searchHandle }) => {
             <div className="search-field">
                 <div className="search-form">
                     <label htmlFor="search-field">Find your movie</label>
-                    <input type="search" id="seach-field" />
+                    <input
+                        type="search"
+                        id="seach-field"
+                        value={currentSearchQuery}
+                        onChange={(e) => setCurrentSearchQuery(e.target.value)}
+                    />
                 </div>
                 <div className="search-filters">
                     <span>search by</span>
@@ -26,8 +38,9 @@ const Search: FC<Props> = ({ searchHandle }) => {
                                 name="search-filters"
                                 className="search-filters__item"
                                 value="title"
-                                checked
-                                onChange={changeFilters}
+                                onChange={(e) =>
+                                    setCurrentFilter(e.target.value)
+                                }
                                 id="title-filter"
                             />
                         </div>
@@ -38,13 +51,18 @@ const Search: FC<Props> = ({ searchHandle }) => {
                                 name="search-filters"
                                 value="genre"
                                 className="search-filters__item"
-                                onChange={changeFilters}
-                                id="genres-filter"
+                                onChange={(e) =>
+                                    setCurrentFilter(e.target.value)
+                                }
+                                id="genre-filter"
                             />
                         </div>
                     </div>
                 </div>
-                <button onClick={()=>searchHandle(this,'title')} className="search-btn btn-red">
+                <button
+                    onClick={() => searchHandler(this, currentSearchQuery)}
+                    className="search-btn btn-red"
+                >
                     search
                 </button>
             </div>
