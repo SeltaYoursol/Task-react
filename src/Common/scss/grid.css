@@ -1,0 +1,29 @@
+.row {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+.col-6 {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.col-3 {
+    display: flex;
+    width: calc(100% / 4);
+}
+.col-2 {
+    display: flex;
+    width: calc(100% / 6);
+}
+.col {
+    display: flex;
+    width: calc(100% / 12);
+}

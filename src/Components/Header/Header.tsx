@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Search from "../Search/Search";
 
 interface Props {
@@ -9,13 +9,26 @@ interface Props {
     changeFilter: (currentFilter: string) => void;
 }
 
-const Header: FC<Props> = ({changeFilter,searchHandler}) => {
-   
+const Header: FC<Props> = ({ changeFilter, searchHandler }) => {
+    const [showSeacrhField, setShowSearchField] = useState<boolean>(false);
 
     return (
-        <div className="header">
+        <div className={`header ${showSeacrhField ? 'header--wide': ''}`}>
             <div className="logo">netflixroulett</div>
-            <Search searchHandler={searchHandler} changeFilter={changeFilter} />
+            {!showSeacrhField && (
+                <button
+                    className="search-btn btn-white"
+                    onClick={() => {setShowSearchField(true)}}
+                >
+                    Search
+                </button>
+            )}
+            {showSeacrhField && (
+                <Search
+                    searchHandler={searchHandler}
+                    changeFilter={changeFilter}
+                />
+            )}
         </div>
     );
 };

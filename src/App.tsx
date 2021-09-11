@@ -22,7 +22,7 @@ interface FilmItem {
 
 function App() {
     const [isLoading, setLoading] = useState<boolean>(true);
-    const [empryResult, setEmptyResult] = useState<boolean>(false);
+    const [emptyResult, setEmptyResult] = useState<boolean>(false);
     const [filmList, setFilmList] = useState<FilmItem[]>([]);
     const [currentFilmList, setCurrentFilmList] = useState<FilmItem[]>([]);
     const [film, setFilmData] = useState<FilmItem>();
@@ -81,7 +81,14 @@ function App() {
                 }
             });
         }
-        setTimeout(() => setLoading(false), 2000);
+        setTimeout(() => {
+            if (result.length) {
+                setEmptyResult(false);
+            } else {
+                setEmptyResult(true);
+            }
+            setLoading(false);
+        }, 2000);
         return result;
     };
 
@@ -106,10 +113,17 @@ function App() {
         getAllFilms();
     }, []);
 
+    const emptyStyle = {
+        fontSize: "60px",
+        margin: "20% 0",
+        fontFamily: "Arial",
+        textAlign: "center",
+    } as const;
+
     return (
         <div>
             <Header searchHandler={searhHandler} changeFilter={changeFilter} />
-            {empryResult && <div>No films found</div>}
+            {emptyResult && <div style={emptyStyle}>No films found</div>}
             {isLoading && <Loader />}
             {!isLoading &&
                 (detailState ? (
