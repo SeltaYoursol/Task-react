@@ -13,7 +13,7 @@ const Header: FC<Props> = ({changeFilter,searchHandler}) => {
    
 
     return (
-        <div>
+        <div className="header">
             <div className="logo">netflixroulett</div>
             <Search searchHandler={searchHandler} changeFilter={changeFilter} />
         </div>
