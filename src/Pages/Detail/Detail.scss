@@ -1,9 +1,85 @@
 .detail {
     width: 100%;
+    position: relative;
 }
 .detail-same-films__list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;
+    align-items: start;
     gap: 20px;
+    max-width: 1170px;
+    margin: 0 auto;
+}
+.detail-card {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    width: 100%;
+    min-height: 600px;
+    height: auto;
+    overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url("/public/img/afisha.jpg") center/cover no-repeat;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 5% 10%;
+}
+
+.detail-card-poster {
+    width: 300px;
+    height: 400px;
+    margin-right: 40px;
+}
+
+.detail-card-poster__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.detail-card-description {
+    width: calc(100% - 340px);
+    padding-top: 40px;
+}
+.description__title {
+    font-size: 35px;
+    color: #c1064f;
+    margin-bottom: 15px;
+}
+.description__categories {
+    margin-bottom: 10px;
+}
+.description__year {
+    font-weight: bold;
+    align-self: flex-start;
+}
+.description__timing {
+    font-weight: bold;
+    align-self: flex-start;
+}
+.description__description {
+    margin-top: 30px;
+}
+.detail-same-films__header-wrapper {
+    width: 100%;
+    height: 50px;
+    background: lightgrey;
+    font-family: Arial;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.detail-same-films__header{
+    max-width: 1170px;
+    margin: 0 auto;
+    width: 100%;
+}
+.detail-same-films {
+    width: 100%;
 }

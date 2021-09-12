@@ -1,6 +1,7 @@
 .film-card {
-    width: 300px;
-    height: 500px;
+    width: 100%;
+    min-width: 250px;
+    height: 450px;
     cursor: pointer;
 }
 .film-card__img {
@@ -9,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: gray;
+    background-color: lightgrey;
 }
 .film-card__img img {
     width: 100%;

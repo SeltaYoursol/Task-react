@@ -45,6 +45,9 @@ function App() {
     const openDetail = (id: number) => {
         getFilm(id);
     };
+    const openHomePage = () => {
+        setDetailState(false);
+    };
 
     useEffect(() => {
         const getAllFilms = async (): Promise<any> => {
@@ -75,6 +78,7 @@ function App() {
                         film={film}
                         filmList={...filmList}
                         openDetail={openDetail}
+                        openHomePage={openHomePage}
                     />
                 ) : (
                     <Home filmList={...filmList} openDetail={openDetail} />
